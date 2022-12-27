@@ -1,0 +1,61 @@
+version: "3.8"
+
+networks:
+  server_nw:
+  spa_nw:
+
+
+volumes:
+  mongodb:
+  applogs:
+
+
+services:
+  # mongodb
+  mongodb:
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb:/data/db
+    networks:
+      - server_nw
+
+  # server api
+  giftshop-api:
+    image: solcr/giftshop-api:latest
+    depends_on:
+      - mongodb
+      - mail-server-smtp
+    networks:
+      - server_nw
+    ports:
+      - "5000:80"
+      - "5001:443"
+
+  # mail server
+  mail-server-smtp:
+    image: jijiechen/papercut
+    hostname: mail-server-smtp
+    ports:
+      - "25:25"
+      - "37408:37408"
+    networks:
+      - server_nw
+
+  # client
+  giftshop-client:
+    image: solcr/giftshop-client:latest
+    networks:
+      - spa_nw
+    ports:
+      - "80:80"
+
+  # admin client
+  giftshop-admin:
+    image: solcr/giftshop-admin:latest
+    networks:
+      - spa_nw
+    ports:
+      - "81:3000"

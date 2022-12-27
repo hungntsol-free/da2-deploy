@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  # server api
+  giftshop-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/.https/localhost.pfx
+    env_file:
+      - ./env/api/.env
+    volumes:
+      - ./certs:/.https:ro
+      - applogs:/app/logs
+
+  # client
+  giftshop-client:
+    image: solcr/giftshop-client:dev
+
+  # admin client
+  giftshop-admin:
+    image: solcr/giftshop-admin:dev
