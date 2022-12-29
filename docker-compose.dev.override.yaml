@@ -9,14 +9,13 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/.https/localhost.pfx
     env_file:
       - ./env/api/.env
-    volumes:
-      - ./certs:/.https:ro
-      - applogs:/app/logs
 
   # client
   giftshop-client:
     image: solcr/giftshop-client:dev
 
-  # admin client
+  # admin
   giftshop-admin:
-    image: solcr/giftshop-admin:dev
+    environment:
+      - APP_ENV=development
+      - REACT_APP_API_DOMAIN_V1=https://localhost:5001/api

@@ -6,8 +6,8 @@ networks:
 
 
 volumes:
-  mongodb:
-  applogs:
+  mongodb-data:
+  applogs-data:
 
 
 services:
@@ -18,7 +18,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - mongodb:/data/db
+      - mongodb-data:/data/db
     networks:
       - server_nw
 
@@ -33,14 +33,18 @@ services:
     ports:
       - "5000:80"
       - "5001:443"
+    volumes:
+      - ./certs:/.https:ro
+      - applogs-data:/app/logs
 
   # mail server
   mail-server-smtp:
-    image: jijiechen/papercut
+    image: marcopas/docker-mailslurper
     hostname: mail-server-smtp
     ports:
-      - "25:25"
-      - "37408:37408"
+      - "2500:2500"
+      - "8080:8080"
+      - "8085:8085"
     networks:
       - server_nw
 
