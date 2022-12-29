@@ -12,7 +12,9 @@ services:
 
   # client
   giftshop-client:
-    image: solcr/giftshop-client:dev
+    environment:
+      - APP_ENV=development
+      - VUE_APP_API_URL=https://localhost:5001
 
   # admin
   giftshop-admin:
