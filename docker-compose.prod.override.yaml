@@ -4,20 +4,20 @@ services:
   # server api
   giftshop-api:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=https://+:443;http://+:80
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/.https/localhost.pfx
     env_file:
-      - ./env/api/.env.development
+      - ./env/api/.env.production
 
   # client
   giftshop-client:
     environment:
-      - APP_ENV=development
+      - APP_ENV=production
       - VUE_APP_API_URL=https://localhost:5001
 
   # admin
   giftshop-admin:
     environment:
-      - APP_ENV=development
+      - APP_ENV=production
       - REACT_APP_API_DOMAIN_V1=https://localhost:5001/api
